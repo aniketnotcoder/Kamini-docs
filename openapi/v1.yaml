@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
-  title: Desihub Scraper API
+  title: Kamini API
   version: 1.0.0
-  description: Versioned public contract. Feed and normal posts are distinct resources.
+  description: Versioned public contract for the Kamini REST API. Feed and normal posts are distinct resources.
 servers:
   - url: https://kmini-g-lang.vercel.app
 paths:
