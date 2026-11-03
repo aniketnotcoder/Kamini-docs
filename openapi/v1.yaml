@@ -159,8 +159,10 @@ components:
       properties:
         type: { type: string, enum: [image, video] }
         id: { type: string }
+        url: { type: string, format: uri }
         image_url: { type: string, format: uri }
         video_id: { type: string }
+        videoId: { type: string }
         embed_url: { type: string, format: uri }
         video_url: { type: string, format: uri }
         thumbnail: { type: string, format: uri }
@@ -174,6 +176,9 @@ components:
         slug: { type: string }
         title: { type: string }
         url: { type: string, format: uri }
+        canonical_url: { type: string, format: uri }
+        post_source: { type: string, format: uri }
+        source: { type: string, format: uri }
         content_type: { type: string, enum: [unknown, image_gallery, video, video_collection, mixed] }
         media_count: { type: integer, minimum: 0 }
         image_count: { type: integer, minimum: 0 }
