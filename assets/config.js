@@ -1,2 +1,1 @@
-// Replace this placeholder with the verified deployed API origin before publishing.
-window.KAMINI_CONFIG = { apiBaseUrl: "https://kmini-g-lang.vercel.app/" };
+window.KAMINI_CONFIG = { apiBaseUrl: "https://kmini-g-lang.vercel.app" };
