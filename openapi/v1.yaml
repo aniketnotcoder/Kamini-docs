@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Desihub Scraper API
+  version: 1.0.0
+  description: Versioned public contract. Feed and normal posts are distinct resources.
+servers:
+  - url: https://kmini-g-lang.vercel.app
+paths:
+  /api/v1/feed:
+    get:
+      operationId: listFeed
+      summary: List feed posts
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, maximum: 30, default: 1 }
+      responses:
+        '200':
+          description: Feed collection
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FeedListResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '502': { $ref: '#/components/responses/UpstreamFailure' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '504': { $ref: '#/components/responses/Timeout' }
+  /api/v1/feed/posts/{slug}:
+    get:
+      operationId: getFeedPost
+      summary: Get one feed-origin post
+      parameters:
+        - $ref: '#/components/parameters/Slug'
+      responses:
+        '200':
+          description: Feed post
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/FeedPost' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '502': { $ref: '#/components/responses/UpstreamFailure' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '504': { $ref: '#/components/responses/Timeout' }
+  /api/v1/posts/{slug}:
+    get:
+      operationId: getNormalPost
+      summary: Get one normal post
+      parameters:
+        - $ref: '#/components/parameters/Slug'
+      responses:
+        '200':
+          description: Normal post
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/NormalPost' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '502': { $ref: '#/components/responses/UpstreamFailure' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '504': { $ref: '#/components/responses/Timeout' }
+  /api/v1/search:
+    get:
+      operationId: search
+      summary: Search posts
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 200 }
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, maximum: 30, default: 1 }
+      responses:
+        '200':
+          description: Search collection
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SearchResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '502': { $ref: '#/components/responses/UpstreamFailure' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '504': { $ref: '#/components/responses/Timeout' }
+components:
+  parameters:
+    Slug:
+      in: path
+      name: slug
+      required: true
+      description: Complete slug, including any generated suffix.
+      schema:
+        type: string
+        pattern: '^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$'
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    UpstreamFailure:
+      description: Upstream unavailable
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    MethodNotAllowed:
+      description: Method not allowed
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    ServiceUnavailable:
+      description: Data service is not configured
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    Timeout:
+      description: Service request timed out
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }
+    Pagination:
+      type: object
+      required: [page, has_next, has_previous]
+      properties:
+        page: { type: integer, minimum: 1 }
+        has_next: { type: boolean }
+        has_previous: { type: boolean }
+        next: { type: string, format: uri }
+        previous: { type: string, format: uri }
+    MediaItem:
+      type: object
+      required: [type]
+      properties:
+        type: { type: string, enum: [image, video] }
+        id: { type: string }
+        image_url: { type: string, format: uri }
+        video_id: { type: string }
+        embed_url: { type: string, format: uri }
+        video_url: { type: string, format: uri }
+        thumbnail: { type: string, format: uri }
+        duration: { type: integer, minimum: 0 }
+    PostFields:
+      type: object
+      required: [resource_type, slug, title, url, content_type, media_count, image_count, video_count, media]
+      properties:
+        resource_type: { type: string, enum: [feed_post, post] }
+        id: { type: string }
+        slug: { type: string }
+        title: { type: string }
+        url: { type: string, format: uri }
+        content_type: { type: string, enum: [unknown, image_gallery, video, video_collection, mixed] }
+        media_count: { type: integer, minimum: 0 }
+        image_count: { type: integer, minimum: 0 }
+        video_count: { type: integer, minimum: 0 }
+        media: { type: array, items: { $ref: '#/components/schemas/MediaItem' } }
+        description: { type: string }
+        tags: { type: array, items: { type: string } }
+        channel_id: { type: string }
+        channel_name: { type: string }
+        username: { type: string }
+        avatar: { type: string, format: uri }
+        created_at: { type: string }
+        thumbnail: { type: string, format: uri }
+        duration: { type: integer, minimum: 0 }
+        embed_url: { type: string, format: uri }
+        video_id: { type: string }
+        video_url: { type: string, format: uri }
+    FeedPost:
+      allOf:
+        - $ref: '#/components/schemas/PostFields'
+        - type: object
+          properties:
+            resource_type: { const: feed_post }
+    NormalPost:
+      allOf:
+        - $ref: '#/components/schemas/PostFields'
+        - type: object
+          properties:
+            resource_type: { const: post }
+    FeedListResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [items, count]
+          properties:
+            items: { type: array, items: { $ref: '#/components/schemas/FeedPost' } }
+            count: { type: integer, minimum: 0 }
+        meta: { $ref: '#/components/schemas/Pagination' }
+    SearchResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [query, items, count]
+          properties:
+            query: { type: string }
+            items:
+              type: array
+              items:
+                type: object
+                required: [resource_type, slug, title, url, content_type]
+                properties:
+                  resource_type: { type: string, enum: [feed_post, post] }
+                  slug: { type: string }
+                  title: { type: string }
+                  url: { type: string, format: uri }
+                  thumbnail: { type: string, format: uri }
+                  content_type: { type: string, enum: [unknown, image_gallery, video, video_collection, mixed] }
+            count: { type: integer, minimum: 0 }
+        meta: { $ref: '#/components/schemas/Pagination' }
