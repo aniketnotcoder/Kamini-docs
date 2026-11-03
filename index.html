@@ -1,32 +1,277 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6f7f5"><meta name="description" content="Developer documentation for Kamini API v1.">
-<title>Kamini API — Developer Docs</title>
+<meta name="theme-color" content="#f6f7f5"><meta name="description" content="Official developer reference for the Kamini API v1.">
+<title>Kamini API — Developer Documentation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css"></head><body>
-<div class="announcement"><i></i> API REFERENCE <span>·</span> VERSION 1 <b>Built for developers ↗</b></div>
-<header><a class="brand" href="#overview"><span class="mark">k</span><span>KAMINI<small>DEVELOPER DOCUMENTATION</small></span></a><div class="head-right"><span>REST · JSON</span><a href="https://github.com/aniketnotcoder/Kamini-go-lang" target="_blank" rel="noreferrer">API source ↗</a><button id="menu" aria-label="Open navigation" aria-expanded="false">☰</button></div></header>
-<div class="layout"><nav id="sidebar"><small>GET STARTED</small><a class="active" data-section="overview" href="#overview">Overview</a><a data-section="quickstart" href="#quickstart">Quickstart</a><small>API REFERENCE <em>v1</em></small><a data-section="feed" href="#feed"><b>GET</b> Feed</a><a data-section="feed-post" href="#feed-post"><b>GET</b> Feed post</a><a data-section="post" href="#post"><b>GET</b> Post</a><a data-section="search" href="#search"><b>GET</b> Search</a><small>GUIDES</small><a data-section="media" href="#media">Video & media</a><a data-section="pagination" href="#pagination">Pagination</a><a data-section="errors" href="#errors">Errors</a><div class="nav-foot"><i></i> Public v1 endpoints<br><span>No API key required</span></div></nav><div id="scrim"></div>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="announcement"><i></i> API REFERENCE <span>·</span> VERSION 1 <b>Production API · Operational status is not implied</b></div>
+<header><a class="brand" href="#overview" aria-label="Kamini documentation home"><span class="mark">k</span><span>KAMINI<small>DEVELOPER DOCUMENTATION</small></span></a><div class="head-right"><span>REST · JSON</span><a href="https://github.com/aniketnotcoder/Kamini-go-lang" target="_blank" rel="noreferrer">API source ↗</a><button id="menu" aria-label="Open navigation" aria-expanded="false">☰</button></div></header>
+<div class="layout">
+<nav id="sidebar" aria-label="Documentation navigation">
+<small>GET STARTED</small><a class="active" data-section="overview" href="#overview">Overview</a><a data-section="quickstart" href="#quickstart">Quickstart</a><a data-section="authentication" href="#authentication">Authentication</a><a data-section="requests" href="#requests">Requests & responses</a>
+<small>API REFERENCE <em>v1</em></small><a data-section="feed" href="#feed"><b>GET</b> Feed</a><a data-section="feed-post" href="#feed-post"><b>GET</b> Feed post</a><a data-section="post" href="#post"><b>GET</b> Post</a><a data-section="search" href="#search"><b>GET</b> Search</a>
+<small>CONCEPTS</small><a data-section="pagination" href="#pagination">Pagination</a><a data-section="post-model" href="#post-model">Post model</a><a data-section="media" href="#media">Video & media</a><a data-section="errors" href="#errors">Errors</a><a data-section="limits" href="#limits">Limits & behavior</a>
+<div class="nav-foot"><i></i> Public v1 endpoints<br><span>No API key required</span></div>
+</nav><div id="scrim"></div>
 <main>
-<section id="overview" class="hero"><div class="eyebrow">DEVELOPER DOCUMENTATION</div><h1>Build with<br><span>Kamini API.</span></h1><p class="intro">A simple REST API for discovering feed entries, retrieving posts, and searching content. Make a request, receive JSON, and keep building.</p><div class="actions"><a class="button" href="#quickstart">Make your first request <span>→</span></a><a href="#feed">Explore endpoints ↘</a></div><div class="meta"><span>● REST · JSON</span><span>Base path <code>/api/v1</code></span><span>Public access</span></div>
-<div class="tiles"><a href="#feed"><small>01 / DISCOVER</small><strong>Browse the feed</strong><p>Paginated content, ready to consume.</p><code>GET /feed ↗</code></a><a href="#post"><small>02 / RETRIEVE</small><strong>Get a post</strong><p>Fetch a complete post by its slug.</p><code>GET /posts/:slug ↗</code></a><a href="#search"><small>03 / FIND</small><strong>Search content</strong><p>Find matching entries with a query.</p><code>GET /search ↗</code></a></div></section>
-<section id="quickstart"><label>01 — GET STARTED</label><h2>Quickstart</h2><p class="lead">The API uses standard HTTP requests and returns JSON. No SDK or authentication token is required for the v1 endpoints documented here.</p><div class="note"><b>i</b><p><strong>Configure your host first.</strong> Set <code>apiBaseUrl</code> in <code>assets/config.js</code> to the verified production API origin before using these examples.</p></div><h3>Make a request</h3><p>Request the first page of the feed:</p><div class="code"><div>cURL <button data-copy='curl "$API_BASE_URL/api/v1/feed?page=1" -H "Accept: application/json"'>Copy</button></div><pre><span># Set this to your deployed API origin</span>
-API_BASE_URL="https://YOUR-API-HOST"
+<section id="overview" class="hero">
+<div class="eyebrow">DEVELOPER DOCUMENTATION</div><h1>Build with<br><span>Kamini API.</span></h1>
+<p class="intro">A versioned REST API for discovering feed entries, retrieving posts, and searching content. Consistent JSON models, explicit resource types, and predictable pagination.</p>
+<div class="actions"><a class="button" href="#quickstart">Make your first request <span>→</span></a><a href="#reference">Explore endpoints ↘</a></div>
+<div class="meta"><span>● REST · JSON</span><span>Base path <code>/api/v1</code></span><span>Authentication: none</span></div>
+<div class="base-url"><div><small>PRODUCTION BASE URL</small><code>https://kmini-g-lang.vercel.app</code></div><button data-copy="https://kmini-g-lang.vercel.app">Copy URL</button></div>
+<div class="tiles"><a href="#feed"><small>01 / COLLECTION</small><strong>List the feed</strong><p>Retrieve feed posts with page metadata.</p><code>GET /api/v1/feed ↗</code></a><a href="#post"><small>02 / RESOURCE</small><strong>Retrieve a post</strong><p>Fetch a normal post by its complete slug.</p><code>GET /api/v1/posts/:slug ↗</code></a><a href="#search"><small>03 / DISCOVERY</small><strong>Search content</strong><p>Find feed and normal posts by query.</p><code>GET /api/v1/search ↗</code></a></div>
+</section>
 
-curl "$API_BASE_URL/api/v1/feed?page=1" \
-  -H "Accept: application/json"</pre></div><h3>Read the response</h3><p>A successful request returns JSON for the requested resource. See each endpoint for its parameters and response notes.</p></section>
-<section id="feed"><label>02 — API REFERENCE</label><div class="endpoint"><b>GET</b><h2>Feed</h2></div><p class="lead">Retrieve a paginated list of feed entries.</p><div class="route"><b>GET</b><code>/api/v1/feed</code><button data-copy="/api/v1/feed">Copy</button></div><h3>Query parameters</h3><div class="table"><div><b>Parameter</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>page</code><span>integer</span><span>No</span><span>Page number. Defaults to 1; accepted range is 1–30.</span></div></div><h3>Example request</h3><div class="code"><div>cURL <button data-copy='curl "$API_BASE_URL/api/v1/feed?page=1"'>Copy</button></div><pre>curl "$API_BASE_URL/api/v1/feed?page=1"</pre></div><h3>Example response</h3><p class="muted">Illustrative only. Verify exact response fields against your deployed API.</p><div class="code"><div>JSON <button data-copy='{"data":[],"page":1}'>Copy</button></div><pre>{
-  "data": [],
-  "page": 1
-}</pre></div></section>
-<section id="feed-post"><div class="endpoint"><b>GET</b><h2>Feed post</h2></div><p class="lead">Retrieve a feed entry using its slug.</p><div class="route"><b>GET</b><code>/api/v1/feed/posts/{slug}</code><button data-copy="/api/v1/feed/posts/{slug}">Copy</button></div><h3>Path parameters</h3><div class="table"><div><b>Parameter</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>slug</code><span>string</span><span>Yes</span><span>Slug identifying the feed entry.</span></div></div><h3>Example request</h3><div class="code"><div>cURL <button data-copy='curl "$API_BASE_URL/api/v1/feed/posts/example-slug"'>Copy</button></div><pre>curl "$API_BASE_URL/api/v1/feed/posts/example-slug"</pre></div></section>
-<section id="post"><div class="endpoint"><b>GET</b><h2>Post</h2></div><p class="lead">Retrieve a standard post response by its slug.</p><div class="route"><b>GET</b><code>/api/v1/posts/{slug}</code><button data-copy="/api/v1/posts/{slug}">Copy</button></div><h3>Path parameters</h3><div class="table"><div><b>Parameter</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>slug</code><span>string</span><span>Yes</span><span>Slug identifying the post.</span></div></div><h3>Example request</h3><div class="code"><div>cURL <button data-copy='curl "$API_BASE_URL/api/v1/posts/example-slug"'>Copy</button></div><pre>curl "$API_BASE_URL/api/v1/posts/example-slug"</pre></div></section>
-<section id="search"><div class="endpoint"><b>GET</b><h2>Search</h2></div><p class="lead">Search available content using a query string.</p><div class="route"><b>GET</b><code>/api/v1/search</code><button data-copy="/api/v1/search">Copy</button></div><h3>Query parameters</h3><div class="table"><div><b>Parameter</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>q</code><span>string</span><span>Yes</span><span>Search query. Maximum length: 200 characters.</span></div><div><code>page</code><span>integer</span><span>No</span><span>Page number. Defaults to 1; accepted range is 1–30.</span></div></div><h3>Example request</h3><div class="code"><div>cURL <button data-copy='curl "$API_BASE_URL/api/v1/search?q=sample&page=1"'>Copy</button></div><pre>curl "$API_BASE_URL/api/v1/search?q=sample&page=1"</pre></div></section>
-<section id="media"><label>03 — GUIDES</label><h2>Video & media</h2><p class="lead">A post may include media metadata and, when enrichment succeeds, a direct media URL.</p><div class="definitions"><div><code>embed_url</code><p>The embed or player page URL. It is not necessarily a direct media file.</p></div><div><code>video_url</code><p>The direct file URL when supplied by the source.</p></div><div><code>media[].url</code><p>A direct media URL available after successful best-effort enrichment.</p></div></div><div class="note"><b>i</b><p>Media enrichment is best-effort. A missing direct media URL does not necessarily mean the post failed to load.</p></div></section>
-<section id="pagination"><h2>Pagination</h2><p class="lead">Feed and search endpoints accept a <code>page</code> query parameter.</p><ul><li>Page numbering starts at <code>1</code>.</li><li>The accepted page range is <code>1–30</code>.</li><li>If omitted, the page defaults to <code>1</code>.</li><li>Malformed or out-of-range values return a validation error.</li></ul></section>
-<section id="errors"><h2>Errors</h2><p class="lead">Use the machine-readable error code to handle failures in your application.</p><div class="errors"><div><code>invalid_page</code><span>Page is invalid or outside the supported range.</span></div><div><code>invalid_slug</code><span>The supplied slug is invalid.</span></div><div><code>missing_query</code><span>The search query parameter is missing.</span></div><div><code>query_too_long</code><span>The query exceeds 200 characters.</span></div><div><code>not_found</code><span>The requested resource could not be found.</span></div><div><code>method_not_allowed</code><span>The HTTP method is not supported for this route.</span></div><div><code>upstream_error</code><span>The upstream service returned an error.</span></div><div><code>invalid_upstream_response</code><span>The upstream response could not be parsed or validated.</span></div><div><code>upstream_timeout</code><span>The upstream request timed out.</span></div><div><code>request_canceled</code><span>The request was canceled before completion.</span></div><div><code>internal_error</code><span>An unexpected server error occurred.</span></div></div></section>
-<footer><span class="mark">k</span> Kamini API Documentation <span>Reference for API v1</span></footer>
-</main><aside class="right"><small>ON THIS PAGE</small><a href="#quickstart">Quickstart</a><a href="#feed">Feed</a><a href="#feed-post">Feed post</a><a href="#post">Post</a><a href="#search">Search</a><a href="#media">Video & media</a><a href="#pagination">Pagination</a><a href="#errors">Errors</a><div class="right-card">● <strong>Need the source?</strong><p>Review the API implementation and release history.</p><a href="https://github.com/aniketnotcoder/Kamini-go-lang">View API repository ↗</a></div></aside></div>
-<script src="assets/config.js"></script><script src="assets/app.js"></script></body></html>
+<section id="quickstart">
+<label>01 — GET STARTED</label><h2>Quickstart</h2><p class="lead">You can call the API from any HTTP client. All v1 routes use GET and return JSON. No API key is required.</p>
+<h3>Your first request</h3><p>Fetch the first page of the feed with cURL:</p>
+<div class="code"><div>cURL <button data-copy='curl --request GET "https://kmini-g-lang.vercel.app/api/v1/feed?page=1" --header "Accept: application/json"'>Copy</button></div><pre>curl --request GET \
+  "https://kmini-g-lang.vercel.app/api/v1/feed?page=1" \
+  --header "Accept: application/json"</pre></div>
+<h3>JavaScript</h3><div class="code"><div>Fetch API <button data-copy='const response = await fetch("https://kmini-g-lang.vercel.app/api/v1/feed?page=1");\nconst result = await response.json();\nif (!response.ok) throw new Error(result.error?.code ?? "request_failed");\nconsole.log(result.data.items);'>Copy</button></div><pre>const response = await fetch(
+  "https://kmini-g-lang.vercel.app/api/v1/feed?page=1"
+);
+const result = await response.json();
+
+if (!response.ok) {
+  throw new Error(result.error?.code ?? "request_failed");
+}
+
+console.log(result.data.items);</pre></div>
+<h3>Python</h3><div class="code"><div>requests <button data-copy='import requests\n\nresponse = requests.get(\n    "https://kmini-g-lang.vercel.app/api/v1/feed",\n    params={"page": 1},\n    timeout=40,\n)\nresponse.raise_for_status()\ndata = response.json()\nprint(data["data"]["items"])'>Copy</button></div><pre>import requests
+
+response = requests.get(
+    "https://kmini-g-lang.vercel.app/api/v1/feed",
+    params={"page": 1},
+    timeout=40,
+)
+response.raise_for_status()
+data = response.json()
+print(data["data"]["items"])</pre></div>
+<div class="note"><b>i</b><p>The examples use the production API origin supplied for this project. The live request console below can help you inspect a response from your browser.</p></div>
+</section>
+
+<section id="authentication">
+<label>02 — ACCESS</label><h2>Authentication</h2><p class="lead">The documented v1 endpoints are public and do not require an API key, bearer token, or session cookie.</p>
+<div class="info-grid"><div><small>AUTHORIZATION</small><strong>Not required</strong><p>Send requests directly to the endpoint.</p></div><div><small>HTTP METHODS</small><strong>GET</strong><p>Other methods are rejected with <code>405 method_not_allowed</code>.</p></div><div><small>CROSS-ORIGIN</small><strong>CORS enabled</strong><p>The handler allows cross-origin requests.</p></div></div>
+</section>
+
+<section id="requests">
+<label>03 — PROTOCOL</label><h2>Requests & responses</h2><p class="lead">The v1 contract is JSON over HTTPS. Collection responses use a data object and pagination metadata; single-resource responses wrap the resource in data.</p>
+<h3>Base URL</h3><div class="route"><b>HTTPS</b><code>https://kmini-g-lang.vercel.app</code><button data-copy="https://kmini-g-lang.vercel.app">Copy</button></div>
+<h3>Headers</h3><div class="table"><div><b>Header</b><b>Required</b><b>Value</b><b>Purpose</b></div><div><code>Accept</code><span>Recommended</span><span><code>application/json</code></span><span>Declares that the client expects JSON.</span></div></div>
+<h3>Response envelope</h3><div class="code"><div>JSON shape · collection</div><pre>{
+  "data": {
+    "items": [],
+    "count": 0
+  },
+  "meta": {
+    "page": 1,
+    "has_next": false,
+    "has_previous": false
+  }
+}</pre></div>
+<p class="muted">This is a schema illustration with an empty collection, not a captured live response.</p>
+</section>
+
+<div id="reference" class="reference-heading"><label>04 — API REFERENCE</label><h2>Endpoints</h2><p class="lead">Four stable v1 routes. Feed-origin posts and normal posts are intentionally separate resource types.</p></div>
+<section id="feed">
+<div class="endpoint"><b>GET</b><h2>List feed posts</h2></div><p class="lead">Returns a paginated collection of feed-origin posts.</p>
+<div class="route"><b>GET</b><code>/api/v1/feed</code><button data-copy="/api/v1/feed">Copy path</button></div>
+<h3>Query parameters</h3><div class="table"><div><b>Name</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>page</code><span>integer</span><span>No</span><span>Page number from 1 to 30. Defaults to 1.</span></div></div>
+<h3>Success response · 200</h3><p>Returns <code>FeedListResponse</code>. Each item is a <code>FeedPost</code> with <code>resource_type: "feed_post"</code>.</p>
+<div class="code"><div>JSON · illustrative schema</div><pre>{
+  "data": {
+    "items": [
+      {
+        "resource_type": "feed_post",
+        "slug": "example-feed-entry",
+        "title": "Example title",
+        "url": "https://source.example/item",
+        "content_type": "unknown",
+        "media_count": 0,
+        "image_count": 0,
+        "video_count": 0,
+        "media": []
+      }
+    ],
+    "count": 1
+  },
+  "meta": {
+    "page": 1,
+    "has_next": false,
+    "has_previous": false
+  }
+}</pre></div>
+<p class="muted">Illustrative values only. The field names and envelope follow the typed v1 model.</p>
+<h3>Possible errors</h3><p><code>400 invalid_page</code> · <code>405 method_not_allowed</code> · <code>502 upstream_error / invalid_upstream_response</code> · <code>503 service_unavailable</code> · <code>504 upstream_timeout</code></p>
+</section>
+
+<section id="feed-post">
+<div class="endpoint"><b>GET</b><h2>Get a feed post</h2></div><p class="lead">Retrieves one post that originated from the feed resource.</p>
+<div class="route"><b>GET</b><code>/api/v1/feed/posts/{slug}</code><button data-copy="/api/v1/feed/posts/{slug}">Copy path</button></div>
+<h3>Path parameters</h3><div class="table"><div><b>Name</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>slug</code><span>string</span><span>Yes</span><span>Complete slug, including any generated suffix. Do not truncate or rewrite it.</span></div></div>
+<h3>Success response · 200</h3><p>Returns <code>{ data: FeedPost }</code>. The resource has <code>resource_type: "feed_post"</code>.</p>
+<div class="code"><div>JSON · response envelope</div><pre>{
+  "data": {
+    "resource_type": "feed_post",
+    "slug": "complete-feed-slug",
+    "title": "Example title",
+    "url": "https://source.example/item",
+    "content_type": "unknown",
+    "media_count": 0,
+    "image_count": 0,
+    "video_count": 0,
+    "media": []
+  }
+}</pre></div>
+<h3>Possible errors</h3><p><code>400 invalid_slug</code> · <code>404 not_found</code> · <code>405 method_not_allowed</code> · <code>502 upstream_error / invalid_upstream_response</code> · <code>503 service_unavailable</code> · <code>504 upstream_timeout</code></p>
+</section>
+
+<section id="post">
+<div class="endpoint"><b>GET</b><h2>Get a normal post</h2></div><p class="lead">Retrieves one standard post by its complete slug. This is not the feed-post route.</p>
+<div class="route"><b>GET</b><code>/api/v1/posts/{slug}</code><button data-copy="/api/v1/posts/{slug}">Copy path</button></div>
+<h3>Path parameters</h3><div class="table"><div><b>Name</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>slug</code><span>string</span><span>Yes</span><span>Complete slug, including any generated suffix.</span></div></div>
+<h3>Success response · 200</h3><p>Returns <code>{ data: NormalPost }</code>. The resource has <code>resource_type: "post"</code>.</p>
+<div class="code"><div>JSON · response envelope</div><pre>{
+  "data": {
+    "resource_type": "post",
+    "slug": "complete-normal-post-slug",
+    "title": "Example title",
+    "url": "https://source.example/item",
+    "content_type": "unknown",
+    "media_count": 0,
+    "image_count": 0,
+    "video_count": 0,
+    "media": []
+  }
+}</pre></div>
+<h3>Possible errors</h3><p><code>400 invalid_slug</code> · <code>404 not_found</code> · <code>405 method_not_allowed</code> · <code>502 upstream_error / invalid_upstream_response</code> · <code>503 service_unavailable</code> · <code>504 upstream_timeout</code></p>
+</section>
+
+<section id="search">
+<div class="endpoint"><b>GET</b><h2>Search posts</h2></div><p class="lead">Searches available content and returns matching feed posts and normal posts in a single result collection.</p>
+<div class="route"><b>GET</b><code>/api/v1/search</code><button data-copy="/api/v1/search">Copy path</button></div>
+<h3>Query parameters</h3><div class="table"><div><b>Name</b><b>Type</b><b>Required</b><b>Description</b></div><div><code>q</code><span>string</span><span>Yes</span><span>Search query. Must contain non-whitespace text and be at most 200 characters.</span></div><div><code>page</code><span>integer</span><span>No</span><span>Page number from 1 to 30. Defaults to 1.</span></div></div>
+<h3>Example request</h3><div class="code"><div>cURL <button data-copy='curl --get "https://kmini-g-lang.vercel.app/api/v1/search" --data-urlencode "q=sample query" --data-urlencode "page=1"'>Copy</button></div><pre>curl --get \
+  "https://kmini-g-lang.vercel.app/api/v1/search" \
+  --data-urlencode "q=sample query" \
+  --data-urlencode "page=1"</pre></div>
+<h3>Success response · 200</h3><p>Each search result includes its <code>resource_type</code>, <code>slug</code>, <code>title</code>, <code>url</code>, and <code>content_type</code>. <code>thumbnail</code> is optional.</p>
+<div class="code"><div>JSON · illustrative schema</div><pre>{
+  "data": {
+    "query": "sample query",
+    "items": [
+      {
+        "resource_type": "post",
+        "slug": "example-result",
+        "title": "Example result",
+        "url": "https://source.example/item",
+        "content_type": "unknown"
+      }
+    ],
+    "count": 1
+  },
+  "meta": {
+    "page": 1,
+    "has_next": false,
+    "has_previous": false
+  }
+}</pre></div>
+<h3>Possible errors</h3><p><code>400 missing_query / query_too_long / invalid_page</code> · <code>405 method_not_allowed</code> · <code>502 upstream_error / invalid_upstream_response</code> · <code>503 service_unavailable</code> · <code>504 upstream_timeout</code></p>
+</section>
+
+<section id="pagination">
+<label>05 — RESPONSE CONCEPTS</label><h2>Pagination</h2><p class="lead">Feed and search collection responses include a <code>meta</code> object. Pagination links point back to the public v1 endpoint, not the upstream content site.</p>
+<div class="table"><div><b>Field</b><b>Type</b><b>Always present</b><b>Meaning</b></div><div><code>page</code><span>integer</span><span>Yes</span><span>Current page number.</span></div><div><code>has_next</code><span>boolean</span><span>Yes</span><span>Whether another page is available.</span></div><div><code>has_previous</code><span>boolean</span><span>Yes</span><span>Whether a previous page is available.</span></div><div><code>next</code><span>URL string</span><span>When available</span><span>Absolute URL for the next page.</span></div><div><code>previous</code><span>URL string</span><span>When available</span><span>Absolute URL for the previous page.</span></div></div>
+<div class="note"><b>!</b><p>The supported page range is 1–30. At page 30, the service does not advertise a next page.</p></div>
+</section>
+
+<section id="post-model">
+<h2>Post model</h2><p class="lead">FeedPost and NormalPost share fields, but remain distinct resources. Use <code>resource_type</code> to identify which resource you received.</p>
+<div class="table"><div><b>Field</b><b>Type</b><b>Required</b><b>Description</b></div>
+<div><code>resource_type</code><span>string</span><span>Yes</span><span><code>feed_post</code> or <code>post</code>.</span></div>
+<div><code>slug</code><span>string</span><span>Yes</span><span>Complete resource identifier.</span></div>
+<div><code>title</code><span>string</span><span>Yes</span><span>Post title.</span></div>
+<div><code>url</code><span>string</span><span>Yes</span><span>Canonical source URL for the resource.</span></div>
+<div><code>content_type</code><span>string</span><span>Yes</span><span>Media classification: <code>unknown</code>, <code>image_gallery</code>, <code>video</code>, <code>video_collection</code>, or <code>mixed</code>.</span></div>
+<div><code>media_count</code><span>integer</span><span>Yes</span><span>Total number of media entries.</span></div>
+<div><code>image_count</code><span>integer</span><span>Yes</span><span>Number of image entries.</span></div>
+<div><code>video_count</code><span>integer</span><span>Yes</span><span>Number of video entries.</span></div>
+<div><code>media</code><span>array</span><span>Yes</span><span>Media entries. Empty collections are returned as <code>[]</code>, not <code>null</code>.</span></div>
+<div><code>description</code><span>string</span><span>Optional</span><span>Post description when available.</span></div>
+<div><code>tags</code><span>string[]</span><span>Optional</span><span>Associated tags when available.</span></div>
+<div><code>channel_*</code><span>string</span><span>Optional</span><span>Channel ID, name, username, and avatar metadata when available.</span></div>
+<div><code>created_at</code><span>string</span><span>Optional</span><span>Source-provided creation timestamp when available.</span></div>
+</div>
+<p class="muted">Optional source metadata is omitted when unavailable. Clients should not assume channel/profile/timestamp fields always exist.</p>
+</section>
+
+<section id="media">
+<h2>Video & media</h2><p class="lead">The <code>media</code> array is the canonical per-item representation. Top-level video fields mirror the first video item for convenience.</p>
+<h3>Media item fields</h3><div class="table"><div><b>Field</b><b>Type</b><b>Required</b><b>Description</b></div>
+<div><code>type</code><span>string</span><span>Yes</span><span><code>image</code> or <code>video</code>.</span></div>
+<div><code>url</code><span>string</span><span>Optional</span><span>Media URL. For an enriched video this may be the direct file URL.</span></div>
+<div><code>image_url</code><span>string</span><span>Image only</span><span>Image source URL; required by model validation for image entries.</span></div>
+<div><code>embed_url</code><span>string</span><span>Optional</span><span>Embed/player page URL. It is not necessarily a direct video file.</span></div>
+<div><code>video_url</code><span>string</span><span>Optional</span><span>Direct video file URL when available.</span></div>
+<div><code>video_id</code><span>string</span><span>Optional</span><span>Source video identifier.</span></div>
+<div><code>thumbnail</code><span>string</span><span>Optional</span><span>Video thumbnail URL.</span></div>
+<div><code>duration</code><span>integer</span><span>Optional</span><span>Duration in seconds when available.</span></div>
+</div>
+<div class="note"><b>i</b><p>Direct media enrichment is best-effort. It is limited to approved HTTPS embed hosts, follows same-host redirects, uses a 15-second fetch timeout, and caps embed HTML at 4 MiB. A missing direct URL does not necessarily mean the post failed.</p></div>
+</section>
+
+<section id="errors">
+<label>06 — TROUBLESHOOTING</label><h2>Errors</h2><p class="lead">Errors use a consistent JSON envelope. Handle the stable <code>error.code</code> in application logic; use the message for diagnostics.</p>
+<div class="code"><div>JSON · error response</div><pre>{
+  "error": {
+    "code": "invalid_page",
+    "message": "Page must be between 1 and 30."
+  }
+}</pre></div>
+<div class="table"><div><b>HTTP</b><b>Error code</b><b>Meaning</b><b>What to do</b></div>
+<div><code>400</code><span><code>invalid_page</code></span><span>Page is malformed or outside 1–30.</span><span>Send an integer between 1 and 30.</span></div>
+<div><code>400</code><span><code>invalid_slug</code></span><span>Slug does not match the accepted format.</span><span>Pass the complete alphanumeric, hyphen-separated slug.</span></div>
+<div><code>400</code><span><code>missing_query</code></span><span>Search query is empty or missing.</span><span>Provide a non-empty <code>q</code> value.</span></div>
+<div><code>400</code><span><code>query_too_long</code></span><span>Search query exceeds 200 characters.</span><span>Shorten the query.</span></div>
+<div><code>404</code><span><code>not_found</code></span><span>Endpoint or requested resource was not found.</span><span>Check route and slug.</span></div>
+<div><code>405</code><span><code>method_not_allowed</code></span><span>Method other than GET was used.</span><span>Use GET.</span></div>
+<div><code>408</code><span><code>request_canceled</code></span><span>Request was canceled before completion.</span><span>Retry only if the client still needs the result.</span></div>
+<div><code>500</code><span><code>internal_error</code></span><span>Unexpected internal failure.</span><span>Retry later; report persistent failures.</span></div>
+<div><code>502</code><span><code>upstream_error</code></span><span>Upstream source could not be reached.</span><span>Retry with backoff.</span></div>
+<div><code>502</code><span><code>invalid_upstream_response</code></span><span>Upstream data failed response validation.</span><span>Retry later; report persistent failures.</span></div>
+<div><code>503</code><span><code>service_unavailable</code></span><span>v1 data service is not configured.</span><span>Service-side configuration issue.</span></div>
+<div><code>504</code><span><code>upstream_timeout</code></span><span>Service request exceeded its timeout.</span><span>Retry with backoff.</span></div>
+</div>
+</section>
+
+<section id="limits">
+<h2>Limits & behavior</h2><p class="lead">The following constraints are defined by the v1 handler and typed service implementation.</p>
+<div class="info-grid"><div><small>PAGE RANGE</small><strong>1–30</strong><p>Feed and search page values.</p></div><div><small>SEARCH QUERY</small><strong>200 characters</strong><p>Measured as Unicode runes.</p></div><div><small>HANDLER TIMEOUT</small><strong>35 seconds</strong><p>Per v1 service request context.</p></div></div>
+<ul><li>Only GET is supported by v1 endpoints.</li><li>Single-resource slugs must match letters and digits separated by single hyphens.</li><li>Feed and normal posts have different resource types and different routes.</li><li>Media counts and content classification are validated against the media array.</li><li>Empty media collections are represented as empty arrays.</li><li>Optional metadata is omitted when the source does not provide it.</li><li>No numeric rate limit is specified in the current v1 contract.</li></ul>
+</section>
+
+<section id="console" class="console-section">
+<label>07 — INTERACTIVE</label><h2>Live request console</h2><p class="lead">Send a GET request to the production API from this page and inspect the JSON response.</p>
+<form id="api-console" class="api-console">
+<div class="console-fields"><label class="field"><span>Endpoint</span><select id="console-route"><option value="feed">List feed</option><option value="search">Search</option><option value="feed-post">Get feed post</option><option value="post">Get normal post</option></select></label><label class="field" id="page-field"><span>Page</span><input id="console-page" type="number" min="1" max="30" value="1"></label><label class="field hidden" id="query-field"><span>Search query</span><input id="console-query" type="text" maxlength="200" placeholder="e.g. sample"></label><label class="field hidden" id="slug-field"><span>Complete slug</span><input id="console-slug" type="text" placeholder="example-post-slug"></label></div>
+<div class="console-actions"><code id="console-url">GET https://kmini-g-lang.vercel.app/api/v1/feed?page=1</code><button class="button" type="submit" id="run-request">Send request →</button></div>
+<div class="console-result"><div><strong>Response</strong><span id="console-status">Not sent</span></div><pre id="console-output">Choose an endpoint and send a request to see its JSON response.</pre></div>
+</form>
+</section>
+<section id="specification">
+<h2>OpenAPI specification</h2><p class="lead">Use the machine-readable OpenAPI 3.1 contract to generate clients, import the API into Postman, or inspect schemas.</p><div class="spec-card"><div><small>OPENAPI 3.1.0</small><strong>Kamini API v1</strong><p>Four endpoints · Typed response schemas · Shared error definitions</p></div><a href="openapi/v1.yaml" download>Download YAML ↗</a></div><p class="muted">The specification is maintained alongside the Go API source.</p>
+</section>
+<footer><span class="mark">k</span> Kamini API Documentation <span>API v1 · <a href="https://github.com/aniketnotcoder/Kamini-docs">Docs source ↗</a></span></footer>
+</main>
+<aside class="right"><small>ON THIS PAGE</small><a href="#quickstart">Quickstart</a><a href="#authentication">Authentication</a><a href="#requests">Requests</a><a href="#feed">Feed</a><a href="#feed-post">Feed post</a><a href="#post">Normal post</a><a href="#search">Search</a><a href="#pagination">Pagination</a><a href="#post-model">Post model</a><a href="#media">Media</a><a href="#errors">Errors</a><a href="#console">Live console</a><div class="right-card">● <strong>API source</strong><p>Review the implementation, tests, and OpenAPI contract.</p><a href="https://github.com/aniketnotcoder/Kamini-go-lang">View Go repository ↗</a></div></aside>
+</div>
+<script src="assets/config.js"></script><script src="assets/app.js"></script>
+</body></html>
